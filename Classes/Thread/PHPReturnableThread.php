@@ -67,9 +67,11 @@ class Threadi_Thread_PHPReturnableThread extends Threadi_Thread_PHPThread implem
 			$this->communication->close();
 		}
 	}
-	
+	/**
+	 * @return boolean
+	 */
 	private function inParentThread() {
-		return false;
+		return (getmypid() == $this->parentId);
 	}
 }
 

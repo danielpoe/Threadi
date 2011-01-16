@@ -18,7 +18,8 @@ class Threadi_Communication_SharedMemory implements Threadi_Communication_Commun
      */
 	public function __construct() {
 		if (! function_exists('shmop_open')) throw new Exception('shmop functions not available on this PHP installation');
-		$memoryKey = ftok(__FILE__, 't').getmypid().srand(2000);
+		srand();
+		$memoryKey = ftok(__FILE__, 't').getmypid().rand();
 		$this->shmId = shmop_open($memoryKey, "c", 0644, 100);
 	}
 	
@@ -60,8 +61,8 @@ class Threadi_Communication_SharedMemory implements Threadi_Communication_Commun
 	 * Close shared memory
 	 */
 	public function close() {
-		shmop_delete($this->shmId);
-		shmop_close($this->shmId);
+		@shmop_delete($this->shmId);
+		@shmop_close($this->shmId);
 	}
 	
 }

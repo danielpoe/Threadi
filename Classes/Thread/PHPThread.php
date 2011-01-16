@@ -15,7 +15,7 @@ class Threadi_Thread_PHPThread extends Threadi_Thread_AbstractThread implements 
 	/**
 	 * @var integer
 	 */
-	private $parentId;
+	protected $parentId;
 
 	/**
 	 * @param mixed $callback

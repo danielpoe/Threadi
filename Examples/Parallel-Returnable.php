@@ -7,31 +7,39 @@ require_once(dirname(__FILE__).'/../Loader.php');
  */
 
 class Worker {
-	public function doSomething() {
-		sleep(2);
-		return "worker return at ".@date('i:s').PHP_EOL;
+	public function fetchAWebsite($url) {
+		$content = file_get_contents($url);
+		return "fetched website $url - lenght ".strlen($content).PHP_EOL;
 	}
 }
 
-$worker1 = new Worker();
-$worker2 = new Worker();
+$worker = new Worker();
 
-echo "Doing serial execution".PHP_EOL;
+
+echo "Doing serial execution:".PHP_EOL;
 echo "-------------------------".PHP_EOL;
 $startTime = microtime(TRUE);
-echo $worker1->doSomething();
-echo $worker2->doSomething();
+echo $worker->fetchAWebsite('http://www.google.de');
+echo $worker->fetchAWebsite('http://www.aoemedia.de');
+echo $worker->fetchAWebsite('http://www.heise.de');
 echo "Time needed in seconds: ". ( microtime(TRUE)-$startTime).PHP_EOL.PHP_EOL;
 
-echo "Doing parallel execution".PHP_EOL;
+echo "Doing parallel execution:".PHP_EOL;
 echo "-------------------------".PHP_EOL;
 $startTime = microtime(TRUE);
-$thread1 = Threadi_ThreadFactory::getReturnableThread(array($worker1,'doSomething')); 
-$thread2 = Threadi_ThreadFactory::getReturnableThread(array($worker2,'doSomething')); 
-$thread1->start();
-$thread2->start();
-$joinPoint = new Threadi_JoinPoint($thread1, $thread2);
+$thread1 = Threadi_ThreadFactory::getReturnableThread(array($worker,'fetchAWebsite'));
+$thread1->start('http://www.google.de'); 
+$thread2 = Threadi_ThreadFactory::getReturnableThread(array($worker,'fetchAWebsite'));
+$thread2->start('http://www.aoemedia.de');
+$thread3 = Threadi_ThreadFactory::getReturnableThread(array($worker,'fetchAWebsite'));
+$thread3->start('http://www.heise.de');
+
+
+$joinPoint = new Threadi_JoinPoint($thread1, $thread2, $thread3);
 $joinPoint->waitTillReady();
+
 echo $thread1->getResult();
 echo $thread2->getResult();
+echo $thread3->getResult();
+
 echo "Time needed in seconds: ". ( microtime(TRUE)-$startTime).PHP_EOL;
