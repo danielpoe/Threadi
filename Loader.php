@@ -12,3 +12,5 @@ require_once (dirname(__FILE__) . '/Classes/Thread/ReturnableThreadInterface.php
 require_once (dirname(__FILE__) . '/Classes/Thread/AbstractThread.php');
 require_once (dirname(__FILE__) . '/Classes/Thread/PHPThread.php');
 require_once (dirname(__FILE__) . '/Classes/Thread/PHPReturnableThread.php');
+
+require_once (dirname(__FILE__) . '/Classes/Pool.php');
