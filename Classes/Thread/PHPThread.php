@@ -65,7 +65,8 @@ class Threadi_Thread_PHPThread extends Threadi_Thread_AbstractThread implements 
             // child process
             // 1 register callback for kill
             pcntl_signal( SIGTERM, array( $this, 'signalHandler' ) );
-            $this->executeCallback($this->callback, func_get_args());
+			$args = func_get_args();
+            $this->executeCallback($this->callback, $args);
             exit( 0 );
         }
     }
