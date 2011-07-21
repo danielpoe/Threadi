@@ -1,25 +1,27 @@
 <?php
-
-
 /**
  * Simple Factory Class
- * 
- * @author Daniel Pötzinger
  *
+ * @author Daniel Pötzinger
  */
 class Threadi_ThreadFactory {
+
 	/**
+	 * Get thread
+	 *
 	 * @param callback $callback
 	 * @return Threadi_Thread_ThreadInterface
 	 */
 	public static function getThread($callback) {
-		if (! function_exists('pcntl_fork') ) {
+		if (! function_exists('pcntl_fork')) {
 			return new Threadi_Thread_NonThread($callback);
 		}
 		return new Threadi_Thread_PHPThread($callback);
 	}
-	
+
 	/**
+	 * Get returnable thread
+	 *
 	 * @param callback $callback
 	 * @return Threadi_Thread_ReturnableThreadInterface
 	 */
@@ -32,6 +34,3 @@ class Threadi_ThreadFactory {
 		return new Threadi_Thread_NonThread($callback);
 	}
 }
-
-
-

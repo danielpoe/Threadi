@@ -1,19 +1,25 @@
 <?php
-
-
 /**
  * Simple Service
- * 
- * @author Daniel Pötzinger
  *
+ * @author Daniel Pötzinger
  */
 class Threadi_ThreadService {
+
+	/**
+	 * @var Threadi_ThreadFactory
+	 */
 	private $factory;
-	
+
+	/**
+	 * Constructor
+	 *
+	 * @param Threadi_ThreadFactory $factory
+	 */
 	public function __construct(Threadi_ThreadFactory $factory) {
 		$this->factory = $factory;
 	}
-	
+
 	/**
 	 * @param callback $callback
 	 * @return Threadi_Thread_ThreadInterface
@@ -21,7 +27,6 @@ class Threadi_ThreadService {
 	public static function callAndForget($callback) {
 		Threadi_ThreadFactory::getThread($callback)->start();
 	}
-	
 }
 
 
